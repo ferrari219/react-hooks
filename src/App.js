@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 
+const useInput = (initialValue) => {
+	const [value, setValue] = useState(initialValue);
+	const onChange = (e) => {
+		console.log(e.target);
+	};
+	console.log({ value }, { onChange });
+	return { value, onChange };
+};
+
 const App = () => {
-	const [item, setItem] = useState(1); // item, setITem의 이름은 중요치 않으며, useState 안에는 초기값 입력
-	const IncrementItem = () => {
-		setItem(item + 1);
-	};
-	const DecrementItem = () => {
-		setItem(item - 1);
-	};
+	const name = useInput('test');
 	return (
 		<div>
-			<h1>{item}</h1>
-			<div>
-				<button onClick={IncrementItem}>+</button>
-				<button onClick={DecrementItem}>-</button>
-			</div>
+			<form>
+				<input type="text" placeholder="Here" {...name} />
+				{/* value={name.value} onChange={name.onChange} */}
+			</form>
 		</div>
 	);
 };
