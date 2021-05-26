@@ -13,6 +13,10 @@ const tabContent = [
 	},
 ];
 
+const useTabs = (initialTab, allTabs) => {
+	const [currentIndex, setCurrentIndex] = useState(initialTab);
+};
+
 const App = () => {
 	return (
 		<div>
