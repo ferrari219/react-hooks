@@ -1,30 +1,45 @@
 import React, { useState } from 'react';
 
-const useInput = (initialValue, validator) => {
-	const [value, setValue] = useState(initialValue);
-	const onChange = (e) => {
-		const {
-			target: { value },
-		} = e;
-		// const value = e.target.value;
-		let willUpdate = true;
-		if (typeof validator === 'function') {
-			willUpdate = validator(value);
-			console.log(validator(value));
-		}
-		if (willUpdate) setValue(value);
+const content = [
+	{
+		id: 0,
+		tab: 'Section 1',
+		content: 'I am the content of the Section 1',
+	},
+	{
+		id: 1,
+		tab: 'Section 2',
+		content: 'I am the content of the Section 2',
+	},
+];
+
+const useTabs = (initialTab, allTabs) => {
+	const [currentIndex, setCurrentIndex] = useState(initialTab);
+
+	if (!allTabs || !Array.isArray(allTabs)) {
+		// 에러 안나게 처리
+		return;
+	}
+
+	// console.log(setCurrentIndex);
+	return {
+		currentItem: allTabs[currentIndex],
+		changeItem: setCurrentIndex,
 	};
-	return { value, onChange };
 };
 
 const App = () => {
-	// const maxLen = (value) => value.length <= 10;
-	const maxLen = (value) => !value.includes('@');
-	const inptBox = useInput('M', maxLen);
+	const { currentItem, changeItem } = useTabs(0, content);
+	// const tabs = useTabs(0);
+	// const tabs = useTabs(0, content);
 	return (
 		<div>
-			<input type="text" {...inptBox} />
-			{/* <input type="text" value={inptBox.value} onChange={inptBox.onChange} /> */}
+			{content.map((item, index) => (
+				<button type="button" key={item.id} onClick={() => changeItem(index)}>
+					{item.tab}
+				</button>
+			))}
+			<div>{currentItem.content}</div>
 		</div>
 	);
 };
