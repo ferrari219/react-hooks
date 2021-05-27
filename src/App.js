@@ -19,6 +19,7 @@ const useTabs = (initialTab, allTabs) => {
 	// return { currentIndex }; //이렇게만 하면 0만 노출되므로 필요한 답을 얻을수 없음
 	return {
 		currentItem: allTabs[currentIndex],
+		changeItem: setCurrentIndex,
 	};
 };
 
@@ -27,8 +28,8 @@ const App = () => {
 	const tabs = useTabs(0, content); //allTabs에 대한 정의도 필요
 	return (
 		<div>
-			{content.map((item) => (
-				<button type="button" key={item.id}>
+			{content.map((item, index) => (
+				<button type="button" key={item.id} onClick={() => tabs.changeItem(index)}>
 					{item.tab}
 				</button>
 			))}
