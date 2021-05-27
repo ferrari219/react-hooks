@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 
-const tabContent = [
+const content = [
 	{
 		id: 0,
-		tab: 'tab1',
-		content: 'This is tab1 content',
+		tab: 'Section 1',
+		content: 'I am the content of the Section 1',
 	},
 	{
 		id: 1,
-		tab: 'tab2',
-		content: 'This is tab2 content',
+		tab: 'Section 2',
+		content: 'I am the content of the Section 2',
 	},
 ];
-
-const useTabs = (initialTab, allTabs) => {
-	const [currentIndex, setCurrentIndex] = useState(initialTab);
-};
 
 const App = () => {
 	return (
 		<div>
-			{tabContent.map((item) => (
+			{content.map((item) => (
 				<button type="button" key={item.id}>
 					{item.tab}
 				</button>
