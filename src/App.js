@@ -13,14 +13,18 @@ const content = [
 	},
 ];
 
-const useTabs = (initialTab) => {
+const useTabs = (initialTab, allTabs) => {
 	const [currentIndex, setCurrentIndex] = useState(initialTab);
 
-	return { currentIndex }; //이렇게만 하면 0만 노출되므로 필요한 답을 얻을수 없음
+	// return { currentIndex }; //이렇게만 하면 0만 노출되므로 필요한 답을 얻을수 없음
+	return {
+		currentItem: allTabs[currentIndex],
+	};
 };
 
 const App = () => {
-	const tabs = useTabs(0);
+	// const tabs = useTabs(0); //allTabs에 대한 정의도 필요
+	const tabs = useTabs(0, content); //allTabs에 대한 정의도 필요
 	return (
 		<div>
 			{content.map((item) => (
@@ -28,7 +32,7 @@ const App = () => {
 					{item.tab}
 				</button>
 			))}
-			<div>{tabs.currentIndex}</div>
+			<div>{tabs.currentItem.content}</div>
 		</div>
 	);
 };
