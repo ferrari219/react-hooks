@@ -1,39 +1,29 @@
-import React, { useState } from 'react';
-
-const content = [
-	{
-		id: 0,
-		tab: 'Section 1',
-		content: 'I am the content of the Section 1',
-	},
-	{
-		id: 1,
-		tab: 'Section 2',
-		content: 'I am the content of the Section 2',
-	},
-];
-
-const useTabs = (initialTab, allTabs) => {
-	const [currentIndex, setCurrentIndex] = useState(initialTab);
-
-	// return { currentIndex }; //이렇게만 하면 0만 노출되므로 필요한 답을 얻을수 없음
-	return {
-		currentItem: allTabs[currentIndex],
-		changeItem: setCurrentIndex,
-	};
-};
+import React, { useState, useEffect } from 'react';
 
 const App = () => {
-	// const tabs = useTabs(0); //allTabs에 대한 정의도 필요
-	const { currentItem, changeItem } = useTabs(0, content); //allTabs에 대한 정의도 필요
+	const [number, setNumber] = useState(0);
+	const [aNumber, setAnumber] = useState(0);
+
+	const handleIncrement = () => setNumber(number + 1);
+	const handleaIncrement = () => setAnumber(aNumber + 1);
+
+	//useEffect
+	const sayHello = () => {
+		console.log('Hi');
+	};
+	// useEffect(() => {
+	// 	sayHello();
+	//  }, [number]);
+	useEffect(sayHello, [number]); //Number 업데이트 할때만 실행됨
+
 	return (
 		<div>
-			{content.map((item, index) => (
-				<button type="button" key={item.id} onClick={() => changeItem(index)}>
-					{item.tab}
-				</button>
-			))}
-			<div>{currentItem.content}</div>
+			<button type="button" onClick={handleIncrement}>
+				{number}
+			</button>
+			<button type="button" onClick={handleaIncrement}>
+				{aNumber}
+			</button>
 		</div>
 	);
 };
