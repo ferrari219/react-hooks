@@ -25,15 +25,15 @@ const useTabs = (initialTab, allTabs) => {
 
 const App = () => {
 	// const tabs = useTabs(0); //allTabs에 대한 정의도 필요
-	const tabs = useTabs(0, content); //allTabs에 대한 정의도 필요
+	const { currentItem, changeItem } = useTabs(0, content); //allTabs에 대한 정의도 필요
 	return (
 		<div>
 			{content.map((item, index) => (
-				<button type="button" key={item.id} onClick={() => tabs.changeItem(index)}>
+				<button type="button" key={item.id} onClick={() => changeItem(index)}>
 					{item.tab}
 				</button>
 			))}
-			<div>{tabs.currentItem.content}</div>
+			<div>{currentItem.content}</div>
 		</div>
 	);
 };
