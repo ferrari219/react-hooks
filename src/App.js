@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-	const [number, setNumber] = useState(0);
-	const [aNumber, setAnumber] = useState(0);
-
-	const handleIncrement = () => setNumber(number + 1);
-	const handleaIncrement = () => setAnumber(aNumber + 1);
-
-	//useEffect
-	const sayHello = () => {
-		console.log('Hi');
+	const useTitle = (initialTitle) => {
+		const [title, setTitle] = useState(initialTitle);
+		const updateTitle = () => {
+			const htmlTitle = document.querySelector('title');
+			htmlTitle.innerText = title;
+		};
+		useEffect(updateTitle, [title]);
+		console.log({ title }, { setTitle });
+		return setTitle;
+		// return { setTitle }; //객체로 뺄지 그냥 사용할지는 내 선택
 	};
-	// useEffect(() => {
-	// 	sayHello();
-	//  }, [number]);
-	useEffect(sayHello, [number]); //Number 업데이트 할때만 실행됨
-
+	const titleUpdater = useTitle('Loading...');
+	setTimeout(() => titleUpdater('Home'), 500);
+	// setTimeout(() => titleUpdater.setTitle('Home'), 500);
 	return (
 		<div>
-			<button type="button" onClick={handleIncrement}>
-				{number}
-			</button>
-			<button type="button" onClick={handleaIncrement}>
-				{aNumber}
-			</button>
+			<h1>hi</h1>
 		</div>
 	);
 };
