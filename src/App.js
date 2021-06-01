@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 const App = () => {
 	const useBeforeLeave = (onBefore) => {
-		const handle = () => {
+		const handle = (e) => {
+			console.log(e);
+			const { clientY } = e;
+			if (clientY <= 0) onBefore();
 			// console.log('leaving');
-			onBefore();
 		};
 		useEffect(() => {
 			if (typeof onBefore === 'function') {
