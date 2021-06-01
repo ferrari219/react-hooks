@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const App = () => {
-	const usePreventLeave = () => {
-		//exit 확인창 생성 후 취할 행동
-		const listener = (e) => {
-			e.preventDefault(); // 표준방법
-			e.returnValue = ''; // Chrome에서는 returnValue 설정이 필요함
-			console.log('test');
+	const useBeforeLeave = (onBefore) => {
+		const handle = () => {
+			// console.log('leaving');
+			onBefore();
 		};
-		const enablePrevent = () => window.addEventListener('beforeunload', listener);
-		const disablePrevent = () => window.removeEventListener('beforeunload', listener);
-		return { enablePrevent, disablePrevent };
+		useEffect(() => {
+			if (typeof onBefore === 'function') {
+				document.addEventListener('mouseleave', handle); //cdm
+				return () => document.removeEventListener('mouseleave', handle); //cdm
+			} else {
+				return;
+			}
+		}, []); //1번만 실행되게끔 처리
 	};
-	const { enablePrevent, disablePrevent } = usePreventLeave();
+	const begForLife = () => console.log('Plz dont leave');
+	useBeforeLeave(begForLife);
 	return (
 		<div>
-			<button type="button" onClick={enablePrevent}>
-				Protect
-			</button>
-			<button type="button" onClick={disablePrevent}>
-				UnProtect
-			</button>
+			<h1>test</h1>
 		</div>
 	);
 };
