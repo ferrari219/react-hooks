@@ -23,7 +23,10 @@ const App = () => {
 		}, []);
 		return status;
 	};
-	const onLine = useNetwork();
+	const handleNetworkChange = (online) => {
+		console.log(online ? 'Online' : 'Offline');
+	};
+	const onLine = useNetwork(handleNetworkChange);
 	return <div>{onLine ? 'online' : 'offline'}</div>;
 };
 
