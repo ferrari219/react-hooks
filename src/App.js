@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const App = () => {
-	const useBeforeLeave = (onBefore) => {
-		const handle = (e) => {
-			console.log(e);
-			const { clientY } = e;
-			if (clientY <= 0) onBefore();
-			// console.log('leaving');
-		};
+	const useFadeIn = (duration = 1, delay = 1) => {
+		const ref = useRef();
 		useEffect(() => {
-			if (typeof onBefore === 'function') {
-				document.addEventListener('mouseleave', handle); //cdm
-				return () => document.removeEventListener('mouseleave', handle); //cdm
-			} else {
-				return;
+			const element = ref;
+			// console.log(element.current);
+			if (element.current && duration !== 'number') {
+				const { current } = element;
+				current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+				current.style.opacity = 1;
 			}
-		}, []); //1번만 실행되게끔 처리
+		}, []);
+		return {
+			//이렇게 변형하면 재활용가능해짐
+			ref: ref,
+			style: { opacity: 0 },
+		};
 	};
-	const begForLife = () => console.log('Plz dont leave');
-	useBeforeLeave(begForLife);
+	const fadeInH1 = useFadeIn();
 	return (
 		<div>
-			<h1>test</h1>
+			<h1 {...fadeInH1}>test</h1>
 		</div>
 	);
 };
