@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const App = () => {
-	return <div>App</div>;
+	const useNetwork = (onChange) => {
+		console.log(navigator.onLine); // true
+		const [status, setStatus] = useState(navigator.onLine);
+
+		const handleChange = () => {
+			if (typeof onChange === 'function') {
+				onChange(navigator.onLine);
+			}
+			setStatus(navigator.onLine);
+		};
+		useEffect(() => {
+			window.addEventListener('online', handleChange);
+			window.addEventListener('offline', handleChange);
+
+			//'cwum 일때 처리
+			return () => {
+				window.removeEventListener('online', handleChange);
+				window.removeEventListener('offline', handleChange);
+			};
+		}, []);
+		return status;
+	};
+	const onLine = useNetwork();
+	return <div>{onLine ? 'online' : 'offline'}</div>;
 };
 
 export default App;
