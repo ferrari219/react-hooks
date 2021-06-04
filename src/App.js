@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 
 const App = () => {
-	const useScroll = () => {
-		const [state, setState] = useState({
-			x: 0,
-			y: 0,
-		});
-		const onScroll = () => {
-			// console.log('x', window.scrollX, 'y', window.scrollY);
-			setState({ x: window.scrollX, y: window.scrollY });
+	const useFullScreen = () => {
+		const element = useRef();
+
+		const triggerFull = () => {
+			if (element.current) {
+				element.current.requestFullscreen();
+			}
 		};
-		useEffect(() => {
-			console.log('effect');
-			window.addEventListener('scroll', onScroll);
-			return () => {
-				console.log('cleanup');
-				window.removeEventListener('scroll', onScroll);
-			};
-		}, [state]);
-		return state;
+
+		const exitFull = () => {
+			document.exitFullscreen();
+		};
+		return { element, triggerFull, exitFull };
 	};
-	const { y } = useScroll();
+	const { element, triggerFull, exitFull } = useFullScreen();
 	return (
-		<div style={{ height: '1000vh' }}>
-			<h1 style={{ position: 'fixed', color: y > 100 ? 'red' : 'blue' }}>test</h1>
+		<div>
+			<div ref={element}>
+				<button onClick={exitFull}>Exit FullScreen</button>
+				<img
+					src="https://images.theconversation.com/files/393210/original/file-20210401-13-z6rl6z.jpg?ixlib=rb-1.1.0&rect=9%2C0%2C2994%2C1999&q=45&auto=format&w=496&fit=clip"
+					alt=""
+					style={{
+						width: '100%',
+					}}
+				/>
+			</div>
+			<button onClick={triggerFull}>Make FullScreen</button>
 		</div>
 	);
 };
