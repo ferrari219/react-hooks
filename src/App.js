@@ -1,34 +1,32 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 const App = () => {
-	const useFullScreen = () => {
-		const element = useRef();
-
-		const triggerFull = () => {
-			if (element.current) {
-				element.current.requestFullscreen();
+	const useNotification = (title, options) => {
+		if (!('Notification' in window)) {
+			return;
+		}
+		// useEffect(() => {}, []);
+		const fireNotif = () => {
+			if (Notification.permission !== 'granted') {
+				Notification.requestPermission().then((permission) => {
+					if (permission === 'granted') {
+						new Notification(title, options);
+					} else {
+						return;
+					}
+				});
+			} else {
+				new Notification(title, options);
 			}
 		};
-
-		const exitFull = () => {
-			document.exitFullscreen();
-		};
-		return { element, triggerFull, exitFull };
+		return fireNotif;
 	};
-	const { element, triggerFull, exitFull } = useFullScreen();
+	const triggerNotif = useNotification('Can I allow this?');
 	return (
 		<div>
-			<div ref={element}>
-				<button onClick={exitFull}>Exit FullScreen</button>
-				<img
-					src="https://images.theconversation.com/files/393210/original/file-20210401-13-z6rl6z.jpg?ixlib=rb-1.1.0&rect=9%2C0%2C2994%2C1999&q=45&auto=format&w=496&fit=clip"
-					alt=""
-					style={{
-						width: '100%',
-					}}
-				/>
-			</div>
-			<button onClick={triggerFull}>Make FullScreen</button>
+			<button type="button" onClick={triggerNotif}>
+				click
+			</button>
 		</div>
 	);
 };
