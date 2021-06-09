@@ -2,36 +2,42 @@ import defaultAxios from 'axios';
 import react, { useState, useEffect } from 'react';
 
 const useAxios = (opts, axiosInstance = defaultAxios) => {
-	const [state, setState] = useState({
+	const [state, setstate] = useState({
 		loading: true,
 		error: null,
 		data: null,
 	});
 	const [trigger, setTrigger] = useState(0);
 	const refetch = () => {
-		setState({
+		console.log(Date.now());
+		setstate({
 			...state,
 			loading: true,
 		});
 		setTrigger(Date.now());
 	};
+
 	useEffect(() => {
-		if (!opts.url) {
-			return;
-		} else {
+		if (!opts.url) return;
+		else {
 			axiosInstance(opts)
 				.then((data) => {
-					setState({
+					setstate({
 						...state,
 						loading: false,
 						data,
 					});
 				})
 				.catch((error) => {
-					setState({ ...state, loading: false, error });
+					setstate({
+						...state,
+						loading: false,
+						error,
+					});
 				});
 		}
 	}, [trigger]);
+
 	return { ...state, refetch };
 };
 
