@@ -7,19 +7,32 @@ const useAxios = (opts, axiosInstance = defaultAxios) => {
 		error: null,
 		data: null,
 	});
-	if (opts.url) return; //url이 없다면 리턴
-
-	useEffect(() => {
-		axiosInstance(opts).then((data) => {
-			setState({
-				...state,
-				loading: false,
-				data,
-			});
+	const [trigger, setTrigger] = useState(0);
+	const refetch = () => {
+		setState({
+			...state,
+			loading: true,
 		});
-		return () => {};
-	}, []);
-
-	return state;
+		setTrigger(Date.now());
+	};
+	useEffect(() => {
+		if (!opts.url) {
+			return;
+		} else {
+			axiosInstance(opts)
+				.then((data) => {
+					setState({
+						...state,
+						loading: false,
+						data,
+					});
+				})
+				.catch((error) => {
+					setState({ ...state, loading: false, error });
+				});
+		}
+	}, [trigger]);
+	return { ...state, refetch };
 };
+
 export default useAxios;
