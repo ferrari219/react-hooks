@@ -1,7 +1,13 @@
 import React from 'react';
+import UserContextProvider from './context';
+import Screen from './Screen';
 
 const App = () => {
-  return <div>App</div>;
+	return (
+		<UserContextProvider>
+			<Screen />
+		</UserContextProvider>
+	);
 };
 
 export default App;
