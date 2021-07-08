@@ -1,25 +1,16 @@
 import React, { useState } from 'react';
 import Screen from './Screen';
+import UserContextProvider from './context';
 
 const App = () => {
-	const [user, setUser] = useState({
-		name: 'anonymous',
-		login: false,
-	});
-
-	const handleLogin = (e) => {
-		e.preventDefault();
-		// console.log('Login');
-		setUser({
-			name: 'Nico',
-			login: true,
-		});
-	};
+	// const handleLogin = (e) => {
+	// 	e.preventDefault();
+	// };
 	return (
-		<>
-			<Screen user={user} />
-			<button onClick={handleLogin}>Log user in</button>
-		</>
+		<UserContextProvider>
+			<Screen />
+			{/* <button onClick={handleLogin}>Log user in</button> */}
+		</UserContextProvider>
 	);
 };
 
