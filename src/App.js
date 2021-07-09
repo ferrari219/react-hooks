@@ -1,7 +1,12 @@
 import React from 'react';
+import Screen from './Screen';
 
 const App = () => {
-	return <>test</>;
+	return (
+		<>
+			<Screen />
+		</>
+	);
 };
 
 export default App;
