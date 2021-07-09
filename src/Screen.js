@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Headers from './Headers';
-import { UserContext } from './context';
+import { useFns } from './context';
 
 const Screen = () => {
-	const { handleLogin } = useContext(UserContext);
-	// console.log({ handleLogin });
+	const { handleLogin } = useFns();
+	console.log(handleLogin);
 	return (
 		<div>
 			<Headers />
